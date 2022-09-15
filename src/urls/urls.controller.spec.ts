@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UrlsController } from './urls.controller';
-import { UrlsService } from './urls.service';
+import { UrlsService } from './shared/urls.service';
 
 describe('UrlsController', () => {
   let controller: UrlsController;
