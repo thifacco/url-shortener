@@ -1,14 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { UrlsService } from './shared/urls.service';
 import { CreateUrlDto } from './dto/create-url.dto';
-import { UpdateUrlDto } from './dto/update-url.dto';
 
 @Controller('urls')
 export class UrlsController {
   constructor(private readonly urlsService: UrlsService) {}
 
   @Post()
-  create(@Body() createUrlDto: CreateUrlDto) {
+  // @ApiResponse({ status: 201, description: 'The record has been successfully created.'})
+  // @ApiResponse({ status: 403, description: 'Forbidden.'})
+  create(@Body() createUrlDto: CreateUrlDto, @Body() res) {
     return this.urlsService.create(createUrlDto);
   }
 

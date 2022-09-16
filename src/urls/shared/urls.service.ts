@@ -17,7 +17,7 @@ export class UrlsService {
     const hashCode = nanoid();
 
     const urlObj: Url = {
-      longUrl: createUrlDto.url,
+      longUrl: createUrlDto.longUrl,
       urlCode: hashCode,
       shortUrl: process.env.URL_APP + hashCode,
       active: true,
