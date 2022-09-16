@@ -20,7 +20,7 @@ export class UrlsService {
     const urlObj: Url = {
       longUrl: createUrlDto.url,
       urlCode: hashCode,
-      shortUrl: `http://localhost:3000/${hashCode}`,
+      shortUrl: process.env.URL_APP + hashCode,
       active: true,
       expirationDate: new Date()
     }
