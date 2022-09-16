@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUrlDto } from '../dto/create-url.dto';
-import { UpdateUrlDto } from '../dto/update-url.dto';
 import { Url } from './url';
 import { nanoid } from 'nanoid'
 
