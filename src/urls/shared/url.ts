@@ -3,5 +3,5 @@ export class Url {
   urlCode: string;
   shortUrl: string;
   active: boolean;
-  expirationDate: Date;
+  expirationDate: String;
 }
