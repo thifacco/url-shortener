@@ -7,10 +7,6 @@ networks:
 services:
   mongodb:
     image: docker.io/bitnami/mongodb:6.0
-    environment:
-      - MONGODB_USERNAME=sa
-      - MONGODB_PASSWORD=short123
-      - MONGODB_DATABASE=urlshortner
     networks:
       - app-tier
     ports:
@@ -20,11 +16,6 @@ services:
   
   mongo-express:
     image: mongo-express
-    environment:
-      - MONGODB_PORT=27017
-      - MONGODB_USERNAME=sa
-      - MONGODB_PASSWORD=short123
-      - MONGODB_DATABASE=urlshortner
     networks:
       - app-tier
     links:
