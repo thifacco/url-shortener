@@ -1,4 +1,4 @@
-import { Injectable, Param } from '@nestjs/common';
+import { BadRequestException, Injectable, Param } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUrlDto } from '../dto/create-url.dto';
@@ -10,7 +10,7 @@ const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwyxz', 5);
 
 @Injectable()
 export class UrlsService {
-  
+
   constructor(
     @InjectModel('Url') private readonly urlModel: Model<Url>
   ) {
@@ -29,26 +29,37 @@ export class UrlsService {
   // @ApiResponse({ status: 403, description: 'Forbidden'})
   async create(createUrlDto: CreateUrlDto) {
 
-    const hashCode = nanoid();
-    
-    this.checkUrlCodeExists(hashCode);
+    try {
+      const hashCode = nanoid();
 
-    const newUrl: Url = {
-      longUrl: createUrlDto.longUrl,
-      urlCode: hashCode,
-      shortUrl: process.env.URL_APP + hashCode,
-      active: true,
-      expirationDate: moment().add({ days: 7 }).toString()
+      if (this.checkUrlCodeExists(hashCode)) {
+        throw new BadRequestException('Code already exists');
+      }
+
+      if (this.checkLongUrlExists(createUrlDto.longUrl)) {
+        throw new BadRequestException('Long URL already exists');
+      }
+
+      const newUrl: Url = {
+        longUrl: createUrlDto.longUrl,
+        urlCode: hashCode,
+        shortUrl: process.env.URL_APP + hashCode,
+        active: true,
+        expirationDate: moment().add({ days: 7 }).toString()
+      }
+
+      const createdShortUrl = new this.urlModel(newUrl);
+      await createdShortUrl.save();
+
+      return newUrl;
+    } catch {
+
     }
-
-    const createdShortUrl = new this.urlModel(newUrl);
-    await createdShortUrl.save();
-
-    return 'This action adds a new url';
   }
 
   async checkLongUrlExists(@Param('longUrl') pLongUrl: string) {
     const longUrlExists = await this.urlModel.find({ longUrl: pLongUrl }).exec();
+    console.log(longUrlExists);
     return longUrlExists?.length ? true : false;
   }
 
