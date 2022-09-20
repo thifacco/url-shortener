@@ -1,3 +1,7 @@
+import { IsString } from 'class-validator';
+
 export class CreateUrlDto {
-  longUrl: string;
+
+  @IsString()
+  readonly longUrl: string;
 }

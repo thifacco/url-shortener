@@ -25,19 +25,16 @@ export class UrlsService {
     return await this.urlModel.findById(id).exec();
   }
 
-  // @ApiResponse({ status: 201, description: 'The record is successfully created'})
-  // @ApiResponse({ status: 403, description: 'Forbidden'})
   async create(createUrlDto: CreateUrlDto) {
 
     try {
-      const hashCode = nanoid();
-
-      if (this.checkUrlCodeExists(hashCode)) {
-        throw new BadRequestException('Code already exists');
-      }
-
       if (this.checkLongUrlExists(createUrlDto.longUrl)) {
         throw new BadRequestException('Long URL already exists');
+      }
+      
+      const hashCode = nanoid();
+      if (this.checkUrlCodeExists(hashCode)) {
+        throw new BadRequestException('Code already exists');
       }
 
       const newUrl: Url = {
@@ -60,7 +57,7 @@ export class UrlsService {
   async checkLongUrlExists(@Param('longUrl') pLongUrl: string) {
     const longUrlExists = await this.urlModel.find({ longUrl: pLongUrl }).exec();
     console.log(longUrlExists);
-    return longUrlExists?.length ? true : false;
+    return longUrlExists.length > 0 ? true : false;
   }
 
   async checkUrlCodeExists(@Param('hashCode') pHashCode: string) {
