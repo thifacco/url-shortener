@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Param } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, Param } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUrlDto } from '../dto/create-url.dto';
@@ -22,19 +22,43 @@ export class UrlsService {
   }
 
   async findOne(id: string) {
-    return await this.urlModel.findById(id).exec();
+    try {
+      return await this.urlModel.findById(id).exec();
+    } catch {
+      throw new NotFoundException('ID não existe');
+    }
   }
+
+  async findByHashCode(hashCode: string) {
+    try {
+      return await this.urlModel.findOne({ urlCode: hashCode }).exec();
+    } catch {
+      throw new NotFoundException('HashCode já existe');
+    }
+  }
+
+  async findByLongUrl(longUrl: string) {
+    try {
+      return await this.urlModel.findOne({ longUrl: longUrl }).exec();
+    } catch {
+      throw new NotFoundException('Long URL já existe');
+    }
+  }
+
+  async checkUrlActive() {}
+
+  async disableUrl() {}
 
   async create(createUrlDto: CreateUrlDto) {
 
     try {
-      if (this.checkLongUrlExists(createUrlDto.longUrl)) {
-        throw new BadRequestException('Long URL already exists');
+      if (this.findByLongUrl(createUrlDto.longUrl)) {
+        throw new BadRequestException('Long URL já existe');
       }
-      
+
       const hashCode = nanoid();
-      if (this.checkUrlCodeExists(hashCode)) {
-        throw new BadRequestException('Code already exists');
+      if (this.findByHashCode(hashCode)) {
+        throw new BadRequestException('Hash Code já existe');
       }
 
       const newUrl: Url = {
@@ -54,22 +78,12 @@ export class UrlsService {
     }
   }
 
-  async checkLongUrlExists(@Param('longUrl') pLongUrl: string) {
-    const longUrlExists = await this.urlModel.find({ longUrl: pLongUrl }).exec();
-    console.log(longUrlExists);
-    return longUrlExists.length > 0 ? true : false;
-  }
+  async recreate(createUrlDto: CreateUrlDto) {
+    const hashCode = nanoid();
+    if (this.findByHashCode(hashCode)) {
+      throw new BadRequestException('Hash Code já existe');
+    }
 
-  async checkUrlCodeExists(@Param('hashCode') pHashCode: string) {
-    const urlExists = await this.urlModel.findOne({ urlCode: pHashCode }).exec();
-    return urlExists ? true : false;
-  }
-
-  async checkUrlActive() {
-
-  }
-
-  async disableUrl() {
 
   }
 }
