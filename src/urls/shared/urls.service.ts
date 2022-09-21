@@ -5,6 +5,7 @@ import { CreateUrlDto } from '../dto/create-url.dto';
 import { Url } from './url';
 import { customAlphabet } from 'nanoid';
 import { RecreateUrlDto } from '../dto/recreate-url.dto';
+import * as validUrl from 'valid-url';
 
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwyxz', 5);
 
@@ -37,9 +38,13 @@ export class UrlsService {
   }
 
   async create(createUrlDto: CreateUrlDto) {
+    if (!validUrl.isUri(createUrlDto.longUrl)) {
+      throw new HttpException('Url inválida', HttpStatus.BAD_REQUEST);
+    }
+
     const checkUrlExists = await this.findByLongUrl(createUrlDto.longUrl);
     if (checkUrlExists.length > 0) {
-      throw new HttpException('Url já existe', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException('Url já existe', HttpStatus.BAD_REQUEST);
     }
 
     const hashCode = nanoid();
