@@ -10,11 +10,8 @@ export class Url extends Document {
   @Prop({ required: true })
   longUrl: String;
 
-  @Prop({ required: true })
-  urlCode: String;
-
-  @Prop({ required: true })
-  shortUrl: String;
+  @Prop({ required: true, unique: true })
+  hashCode: String;
 
   @Prop({ type: Boolean, default: true })
   active: Boolean;

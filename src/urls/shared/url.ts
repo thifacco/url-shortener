@@ -1,6 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
+import * as moment from 'moment';
 
 export class Url {
+
+  constructor() {
+    this.longUrl = '';
+    this.hashCode = '';
+    this.active = true;
+    this.expirationDate = moment().add({ days: 7 }).toString()
+  }
   
   @ApiProperty({ 
     example: 'https://twitter.com', 
@@ -12,13 +20,7 @@ export class Url {
     example: 'xqls2', 
     description: 'O hash que será gerado'
   })
-  urlCode: string;
-  
-  @ApiProperty({ 
-    example: `${process.env?.URL_APP}/xqls2`, 
-    description: 'A URL encurtada que será gerada'
-  })
-  shortUrl: string;
+  hashCode: string;
   
   @ApiProperty({ 
     example: 'true', 

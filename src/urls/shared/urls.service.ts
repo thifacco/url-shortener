@@ -1,10 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException, Param } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUrlDto } from '../dto/create-url.dto';
 import { Url } from './url';
 import { customAlphabet } from 'nanoid';
-import * as moment from 'moment';
+import { RecreateUrlDto } from '../dto/recreate-url.dto';
 
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwyxz', 5);
 
@@ -13,77 +13,51 @@ export class UrlsService {
 
   constructor(
     @InjectModel('Url') private readonly urlModel: Model<Url>
-  ) {
-    console.log(moment().add({ days: 7 }));
-  }
+  ) { }
 
   async findAll() {
     return await this.urlModel.find().exec();
   }
 
-  async findOne(id: string) {
-    try {
-      return await this.urlModel.findById(id).exec();
-    } catch {
-      throw new NotFoundException('ID não existe');
-    }
-  }
-
   async findByHashCode(hashCode: string) {
     try {
-      return await this.urlModel.findOne({ urlCode: hashCode }).exec();
+      return await this.urlModel.findOne({ hashCode: hashCode }).exec();
     } catch {
-      throw new NotFoundException('HashCode já existe');
+      throw new HttpException('Não encontrado', HttpStatus.NOT_FOUND);
     }
   }
 
-  async findByLongUrl(longUrl: string) {
+  private async findByLongUrl(longUrl: string) {
     try {
-      return await this.urlModel.findOne({ longUrl: longUrl }).exec();
-    } catch {
-      throw new NotFoundException('Long URL já existe');
+      return this.urlModel.find({ longUrl: longUrl }).exec() || null;
+    }
+    catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
-  async checkUrlActive() {}
-
-  async disableUrl() {}
 
   async create(createUrlDto: CreateUrlDto) {
+    const checkUrlExists = await this.findByLongUrl(createUrlDto.longUrl);
+    if (checkUrlExists.length > 0) {
+      throw new HttpException('Url já existe', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    const hashCode = nanoid();
+
+    const newUrl = new Url();
+    newUrl.longUrl = createUrlDto.longUrl;
+    newUrl.hashCode = hashCode;
+
+    const createdShortUrl = new this.urlModel(newUrl);
 
     try {
-      if (this.findByLongUrl(createUrlDto.longUrl)) {
-        throw new BadRequestException('Long URL já existe');
-      }
-
-      const hashCode = nanoid();
-      if (this.findByHashCode(hashCode)) {
-        throw new BadRequestException('Hash Code já existe');
-      }
-
-      const newUrl: Url = {
-        longUrl: createUrlDto.longUrl,
-        urlCode: hashCode,
-        shortUrl: process.env.URL_APP + hashCode,
-        active: true,
-        expirationDate: moment().add({ days: 7 }).toString()
-      }
-
-      const createdShortUrl = new this.urlModel(newUrl);
       await createdShortUrl.save();
-
-      return newUrl;
-    } catch {
-
-    }
-  }
-
-  async recreate(createUrlDto: CreateUrlDto) {
-    const hashCode = nanoid();
-    if (this.findByHashCode(hashCode)) {
-      throw new BadRequestException('Hash Code já existe');
+    } catch (e) {
+      throw new HttpException('Hash code já existe', HttpStatus.BAD_REQUEST);
     }
 
-
+    return newUrl;
   }
+
+  async recreate(recreateUrlDto: RecreateUrlDto) { }
 }

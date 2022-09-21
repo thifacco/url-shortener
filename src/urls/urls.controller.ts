@@ -1,35 +1,43 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { UrlsService } from './shared/urls.service';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { RecreateUrlDto } from './dto/recreate-url.dto';
 
 @Controller('urls')
 export class UrlsController {
-  
+
   constructor(
     private readonly urlsService: UrlsService
-  ) {}
+  ) { }
 
-  @ApiTags('urls')
   @Post()
   @ApiOperation({ summary: 'Encurtar link' })
-  @ApiResponse({ status: 201, description: 'Created.' })
-  @ApiResponse({ status: 400, description: 'Bad request.' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
-  @ApiResponse({ status: 500, description: 'Internal error.' })
-  create(@Body() createUrlDto: CreateUrlDto, @Body() res) {
+  @ApiResponse({ status: 201, description: 'Link created.' })
+  @ApiResponse({ status: 400, description: 'Link já existe.' })
+  @ApiTags('urls')
+  async create(@Body() createUrlDto: CreateUrlDto) {
     return this.urlsService.create(createUrlDto);
   }
-  
+
+  @Post()
+  @ApiOperation({ summary: 'Recriar link' })
+  @ApiResponse({ status: 201, description: 'Link created.' })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
   @ApiTags('urls')
+  async recreate(@Body() recreateUrlDto: RecreateUrlDto) {
+    return this.urlsService.recreate(recreateUrlDto);
+  }
+
   @Get()
+  @ApiTags('urls')
   findAll() {
     return this.urlsService.findAll();
   }
 
+  @Get(':hashCode')
   @ApiTags('urls')
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.urlsService.findOne(id);
+  findOne(@Param('hashCode') hashCode: string) {
+    return this.urlsService.findByHashCode(hashCode);
   }
 }
