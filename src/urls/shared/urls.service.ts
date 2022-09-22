@@ -20,6 +20,7 @@ export class UrlsService {
         originalUrl: 1, 
         hashCode: 1, 
         active: 1, 
+        expirationDate: 1, 
         _id: 0 
       }).exec();
     } catch {
@@ -27,10 +28,11 @@ export class UrlsService {
     }
   }
 
-  async findByHashCode(hashCode: string) {
+  async findByHashCode(hashCode: string, @Res() res) {
     try {
-      return await this.urlModel.find({
+      const url = await this.urlModel.findOne({
         hashCode: hashCode,
+        active: true,
         expirationDate: { $gte: moment().toString() }
       })
       .select({
@@ -39,24 +41,29 @@ export class UrlsService {
         active: 1, 
         expirationDate: 1,
         _id: 0
-      })
-      .exec() || null;
+      });
+      
+      res.status(HttpStatus.OK).json({
+        hashCode: url.hashCode,
+        redirectTo: url.originalUrl
+      });
     } catch {
-      throw new HttpException('Não encontrado', HttpStatus.NOT_FOUND);
+      throw new HttpException('Url não encontrada.', HttpStatus.NOT_FOUND);
     }
   }
 
   async create(createUrlDto: CreateUrlDto, @Res() res) {
     if (!validUrl.isUri(createUrlDto.originalUrl)) {
-      throw new HttpException('Url inválida', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Url inválida.', HttpStatus.BAD_REQUEST);
     }
 
     const checkUrlExistsAndActive = await this.urlModel.find({
       originalUrl: createUrlDto.originalUrl,
+      active: true,
       expirationDate: { $gte: moment().toString() }
     });
     if (checkUrlExistsAndActive.length > 0) {
-      throw new HttpException('Url já existe', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Url já existe.', HttpStatus.BAD_REQUEST);
     }
 
     const newUrl = new Url();
@@ -88,7 +95,7 @@ export class UrlsService {
         res.status(HttpStatus.OK).json({ success: true });
       }
     } catch {
-      throw new HttpException('Url não encontrada', HttpStatus.NOT_FOUND);
+      throw new HttpException('Url não encontrada.', HttpStatus.NOT_FOUND);
     }
   }
 }

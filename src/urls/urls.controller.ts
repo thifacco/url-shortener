@@ -33,8 +33,8 @@ export class UrlsController {
   @ApiOperation({ summary: 'Buscar URL por Hash Code' })
   @ApiResponse({ status: 404, description: 'Url não encontrada.' })
   @ApiTags('urls')
-  findOne(@Param('hashCode') hashCode: string) {
-    return this.urlsService.findByHashCode(hashCode);
+  findOne(@Param('hashCode') hashCode: string, @Res() res) {
+    return this.urlsService.findByHashCode(hashCode, res);
   }
 
   @Patch('disable')
