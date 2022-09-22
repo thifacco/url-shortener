@@ -3,12 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUrlDto } from '../dto/create-url.dto';
 import { Url } from './url';
-import { customAlphabet } from 'nanoid';
 import * as validUrl from 'valid-url';
 import { DisableUrlDto } from '../dto/disable-url.dto';
 import * as moment from 'moment';
-
-const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwyxz', 5);
 
 @Injectable()
 export class UrlsService {
@@ -60,11 +57,8 @@ export class UrlsService {
       throw new HttpException('Url já existe', HttpStatus.BAD_REQUEST);
     }
 
-    const hashCode = nanoid();
-
     const newUrl = new Url();
     newUrl.longUrl = createUrlDto.longUrl;
-    newUrl.hashCode = hashCode;
 
     const createdShortUrl = new this.urlModel(newUrl);
 
