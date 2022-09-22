@@ -8,7 +8,7 @@ export class Url extends Document {
   _id: String;
 
   @Prop({ required: true })
-  longUrl: String;
+  originalUrl: String;
 
   @Prop({ required: true, unique: true })
   hashCode: String;

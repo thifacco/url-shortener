@@ -11,7 +11,7 @@ const nanoid = customAlphabet(HASH_CODE_CUSTOM_ALPHABET, HASH_CODE_SIZE);
 export class Url {
 
   constructor() {
-    this.longUrl = '';
+    this.originalUrl = '';
     this.hashCode = nanoid();
     this.active = true;
     this.expirationDate = moment().add({ 
@@ -19,7 +19,7 @@ export class Url {
     }).toString()
   }
   
-  longUrl: string;
+  originalUrl: string;
   hashCode: string;
   active: boolean;
   expirationDate: String;

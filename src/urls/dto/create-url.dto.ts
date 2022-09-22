@@ -5,5 +5,5 @@ export class CreateUrlDto {
 
   @ApiProperty()
   @IsString()
-  readonly longUrl: string;
+  readonly originalUrl: string;
 }

@@ -16,7 +16,12 @@ export class UrlsService {
 
   async findAll() {
     try {
-      return await this.urlModel.find().exec();
+      return await this.urlModel.find().select({ 
+        originalUrl: 1, 
+        hashCode: 1, 
+        active: 1, 
+        _id: 0 
+      }).exec();
     } catch {
       throw new HttpException('Ocorreu um erro.', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -27,36 +32,35 @@ export class UrlsService {
       return await this.urlModel.find({
         hashCode: hashCode,
         expirationDate: { $gte: moment().toString() }
-      }).exec() || null;
+      })
+      .select({
+        originalUrl: 1, 
+        hashCode: 1, 
+        active: 1, 
+        expirationDate: 1,
+        _id: 0
+      })
+      .exec() || null;
     } catch {
       throw new HttpException('Não encontrado', HttpStatus.NOT_FOUND);
     }
   }
 
-  private async findByLongUrl(longUrl: string) {
-    try {
-      return await this.urlModel.find({
-        longUrl: longUrl,
-        expirationDate: { $gte: moment().toString() }
-      }).exec() || null;
-    }
-    catch {
-      throw new HttpException('Ocorreu um erro.', HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
   async create(createUrlDto: CreateUrlDto, @Res() res) {
-    if (!validUrl.isUri(createUrlDto.longUrl)) {
+    if (!validUrl.isUri(createUrlDto.originalUrl)) {
       throw new HttpException('Url inválida', HttpStatus.BAD_REQUEST);
     }
 
-    const checkUrlExists = await this.findByLongUrl(createUrlDto.longUrl);
-    if (checkUrlExists.length > 0) {
+    const checkUrlExistsAndActive = await this.urlModel.find({
+      originalUrl: createUrlDto.originalUrl,
+      expirationDate: { $gte: moment().toString() }
+    });
+    if (checkUrlExistsAndActive.length > 0) {
       throw new HttpException('Url já existe', HttpStatus.BAD_REQUEST);
     }
 
     const newUrl = new Url();
-    newUrl.longUrl = createUrlDto.longUrl;
+    newUrl.originalUrl = createUrlDto.originalUrl;
 
     const createdShortUrl = new this.urlModel(newUrl);
 
@@ -72,10 +76,10 @@ export class UrlsService {
   async disable(disableUrlDto: DisableUrlDto, @Res() res) {
     try {
       const disableUrl = await this.urlModel.findOneAndUpdate({
-        _id: disableUrlDto.id
+        hashCode: disableUrlDto.hashCode
       }, {
-        active: false,
-        expirationDate: moment().toString()
+        expirationDate: moment().toString(),
+        active: false
       }, {
         new: false
       }) || null;

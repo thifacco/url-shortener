@@ -5,5 +5,5 @@ export class DisableUrlDto {
 
   @ApiProperty()
   @IsString()
-  readonly id: string;
+  readonly hashCode: string;
 }
