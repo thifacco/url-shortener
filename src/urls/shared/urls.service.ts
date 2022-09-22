@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Res } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUrlDto } from '../dto/create-url.dto';
@@ -6,6 +6,10 @@ import { Url } from './url';
 import { customAlphabet } from 'nanoid';
 import { RecreateUrlDto } from '../dto/recreate-url.dto';
 import * as validUrl from 'valid-url';
+import { Http2ServerResponse } from 'http2';
+import { DisableUrlDto } from '../dto/disable-url.dto';
+import { json } from 'stream/consumers';
+import { response } from 'express';
 
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwyxz', 5);
 
@@ -37,7 +41,7 @@ export class UrlsService {
     }
   }
 
-  async create(createUrlDto: CreateUrlDto) {
+  async create(createUrlDto: CreateUrlDto, @Res() res) {
     if (!validUrl.isUri(createUrlDto.longUrl)) {
       throw new HttpException('Url inválida', HttpStatus.BAD_REQUEST);
     }
@@ -61,8 +65,26 @@ export class UrlsService {
       throw new HttpException('Hash code já existe', HttpStatus.BAD_REQUEST);
     }
 
-    return newUrl;
+    res.status(200).json(newUrl);
   }
 
   async recreate(recreateUrlDto: RecreateUrlDto) { }
+
+  async disable(disableUrlDto: DisableUrlDto, @Res() res) {
+    try {
+      const disableUrl = await this.urlModel.findOneAndUpdate({
+        _id: disableUrlDto.id
+      }, {
+        active: false
+      }, {
+        new: false
+      }) || null;
+
+      if (disableUrl) {
+        res.status(200).json({ success: true });
+      }
+    } catch {
+      throw new HttpException('Url não encontrada', HttpStatus.NOT_FOUND);
+    }
+  }
 }

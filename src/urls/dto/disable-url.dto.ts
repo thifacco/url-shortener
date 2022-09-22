@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
-export class CreateUrlDto {
+export class DisableUrlDto {
 
   @ApiProperty()
   @IsString()
-  readonly longUrl: string;
+  readonly id: string;
 }

@@ -10,27 +10,15 @@ export class Url {
     this.expirationDate = moment().add({ days: 7 }).toString()
   }
   
-  @ApiProperty({ 
-    example: 'https://twitter.com', 
-    description: 'O link que será encurtado'
-  })
+  @ApiProperty()
   longUrl: string;
 
-  @ApiProperty({ 
-    example: 'xqls2', 
-    description: 'O hash que será gerado'
-  })
+  @ApiProperty()
   hashCode: string;
   
-  @ApiProperty({ 
-    example: 'true', 
-    description: 'Status da URL encurtada'
-  })
+  @ApiProperty()
   active: boolean;
 
-  @ApiProperty({ 
-    example: '2022-09-27T04:49:18.000Z', 
-    description: 'Data de expiração da URL'
-  })
+  @ApiProperty()
   expirationDate: String;
 }
