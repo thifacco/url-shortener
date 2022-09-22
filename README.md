@@ -10,7 +10,6 @@ npm install
 ## Executar a aplicação
 
 ```bash
-# watch mode
 npm run start:dev
 ```
 ## Executar o MongoDB pelo Docker
