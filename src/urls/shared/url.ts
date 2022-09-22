@@ -1,7 +1,12 @@
 import * as moment from 'moment';
 import { customAlphabet } from 'nanoid';
+import { 
+  HASH_CODE_CUSTOM_ALPHABET, 
+  HASH_CODE_SIZE, 
+  HASH_CODE_VALIDATE_DAYS 
+} from '../config/url.config';
 
-const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwyxz', 5);
+const nanoid = customAlphabet(HASH_CODE_CUSTOM_ALPHABET, HASH_CODE_SIZE);
 
 export class Url {
 
@@ -9,7 +14,9 @@ export class Url {
     this.longUrl = '';
     this.hashCode = nanoid();
     this.active = true;
-    this.expirationDate = moment().add({ days: 7 }).toString()
+    this.expirationDate = moment().add({ 
+      days: HASH_CODE_VALIDATE_DAYS 
+    }).toString()
   }
   
   longUrl: string;

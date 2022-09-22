@@ -12,9 +12,7 @@ export class UrlsService {
 
   constructor(
     @InjectModel('Url') private readonly urlModel: Model<Url>
-  ) {
-    console.log(moment().toString())
-  }
+  ) { }
 
   async findAll() {
     try {
@@ -64,7 +62,7 @@ export class UrlsService {
 
     try {
       await createdShortUrl.save();
-    } catch (e) {
+    } catch {
       throw new HttpException('Hash code já existe', HttpStatus.BAD_REQUEST);
     }
 
@@ -76,7 +74,8 @@ export class UrlsService {
       const disableUrl = await this.urlModel.findOneAndUpdate({
         _id: disableUrlDto.id
       }, {
-        active: false
+        active: false,
+        expirationDate: moment().toString()
       }, {
         new: false
       }) || null;
