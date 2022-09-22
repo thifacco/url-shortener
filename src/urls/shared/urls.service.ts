@@ -15,19 +15,23 @@ export class UrlsService {
 
   constructor(
     @InjectModel('Url') private readonly urlModel: Model<Url>
-  ) { 
+  ) {
     console.log(moment().toString())
   }
 
   async findAll() {
-    return await this.urlModel.find().exec();
+    try {
+      return await this.urlModel.find().exec();
+    } catch {
+      throw new HttpException('Ocorreu um erro.', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async findByHashCode(hashCode: string) {
     try {
-      return await this.urlModel.find({ 
-        hashCode: hashCode, 
-        expirationDate: { $gte: moment().toString() } 
+      return await this.urlModel.find({
+        hashCode: hashCode,
+        expirationDate: { $gte: moment().toString() }
       }).exec() || null;
     } catch {
       throw new HttpException('Não encontrado', HttpStatus.NOT_FOUND);
@@ -36,9 +40,9 @@ export class UrlsService {
 
   private async findByLongUrl(longUrl: string) {
     try {
-      return await this.urlModel.find({ 
-        longUrl: longUrl, 
-        expirationDate: { $gte: moment().toString() } 
+      return await this.urlModel.find({
+        longUrl: longUrl,
+        expirationDate: { $gte: moment().toString() }
       }).exec() || null;
     }
     catch {
@@ -70,7 +74,7 @@ export class UrlsService {
       throw new HttpException('Hash code já existe', HttpStatus.BAD_REQUEST);
     }
 
-    res.status(HttpStatus.OK).json(newUrl);
+    res.status(HttpStatus.CREATED).json(newUrl);
   }
 
   async disable(disableUrlDto: DisableUrlDto, @Res() res) {

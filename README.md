@@ -1,20 +1,19 @@
 # URL Shortener
-
 Encurtador de links desenvolvido com NestJs e MongoDB.
 
-## Installation
+## Instalar as dependências
 
 ```bash
 npm install
 ```
 
-## Running the app
+## Executar a aplicação
 
 ```bash
 # watch mode
 npm run start:dev
 ```
-## Running MongoDB
+## Executar o MongoDB pelo Docker
 
 ```bash
 docker-compose up -d

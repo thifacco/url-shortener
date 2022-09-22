@@ -12,17 +12,16 @@ export class UrlsController {
   ) { }
 
   @Post()
-  @ApiOperation({ summary: 'Encurtar link' })
-  @ApiResponse({ status: 201, description: 'Url criada.' })
-  @ApiResponse({ status: 400, description: 'Url inválida.' })
-  @ApiResponse({ status: 400, description: 'Url já existe.' })
-  @ApiResponse({ status: 400, description: 'Hash code já existe.' })
+  @ApiOperation({ summary: 'Encurtar URL' })
+  @ApiResponse({ status: 201, description: 'Url criada' })
+  @ApiResponse({ status: 400, description: 'Url inválida. || Url já existe. || Hash code já existe.' })
   @ApiTags('urls')
   async create(@Body() createUrlDto: CreateUrlDto, @Res() res) {
     return this.urlsService.create(createUrlDto, res);
   }
 
   @Get()
+  @ApiOperation({ summary: 'Listar todas URLs' })
   @ApiResponse({ status: 200, description: 'Sucesso.' })
   @ApiTags('urls')
   findAll() {
@@ -30,6 +29,7 @@ export class UrlsController {
   }
 
   @Get(':hashCode')
+  @ApiOperation({ summary: 'Buscar URL por Hash Code' })
   @ApiResponse({ status: 404, description: 'Url não encontrada.' })
   @ApiTags('urls')
   findOne(@Param('hashCode') hashCode: string) {
@@ -37,6 +37,7 @@ export class UrlsController {
   }
 
   @Patch('disable')
+  @ApiOperation({ summary: 'Desabilitar URL' })
   @ApiResponse({ status: 200, description: 'Url desabilitada.' })
   @ApiResponse({ status: 404, description: 'Url não encontrada.' })
   @ApiTags('urls')
