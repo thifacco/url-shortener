@@ -4,12 +4,9 @@ import { Model } from 'mongoose';
 import { CreateUrlDto } from '../dto/create-url.dto';
 import { Url } from './url';
 import { customAlphabet } from 'nanoid';
-import { RecreateUrlDto } from '../dto/recreate-url.dto';
 import * as validUrl from 'valid-url';
-import { Http2ServerResponse } from 'http2';
 import { DisableUrlDto } from '../dto/disable-url.dto';
-import { json } from 'stream/consumers';
-import { response } from 'express';
+import * as moment from 'moment';
 
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwyxz', 5);
 
@@ -18,7 +15,9 @@ export class UrlsService {
 
   constructor(
     @InjectModel('Url') private readonly urlModel: Model<Url>
-  ) { }
+  ) { 
+    console.log(moment().toString())
+  }
 
   async findAll() {
     return await this.urlModel.find().exec();
@@ -26,7 +25,10 @@ export class UrlsService {
 
   async findByHashCode(hashCode: string) {
     try {
-      return await this.urlModel.findOne({ hashCode: hashCode }).exec();
+      return await this.urlModel.find({ 
+        hashCode: hashCode, 
+        expirationDate: { $gte: moment().toString() } 
+      }).exec() || null;
     } catch {
       throw new HttpException('Não encontrado', HttpStatus.NOT_FOUND);
     }
@@ -34,10 +36,13 @@ export class UrlsService {
 
   private async findByLongUrl(longUrl: string) {
     try {
-      return this.urlModel.find({ longUrl: longUrl }).exec() || null;
+      return await this.urlModel.find({ 
+        longUrl: longUrl, 
+        expirationDate: { $gte: moment().toString() } 
+      }).exec() || null;
     }
-    catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    catch {
+      throw new HttpException('Ocorreu um erro.', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -65,10 +70,8 @@ export class UrlsService {
       throw new HttpException('Hash code já existe', HttpStatus.BAD_REQUEST);
     }
 
-    res.status(200).json(newUrl);
+    res.status(HttpStatus.OK).json(newUrl);
   }
-
-  async recreate(recreateUrlDto: RecreateUrlDto) { }
 
   async disable(disableUrlDto: DisableUrlDto, @Res() res) {
     try {
@@ -81,7 +84,7 @@ export class UrlsService {
       }) || null;
 
       if (disableUrl) {
-        res.status(200).json({ success: true });
+        res.status(HttpStatus.OK).json({ success: true });
       }
     } catch {
       throw new HttpException('Url não encontrada', HttpStatus.NOT_FOUND);

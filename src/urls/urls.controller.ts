@@ -2,9 +2,7 @@ import { Controller, Get, Post, Body, Param, Patch, Res } from '@nestjs/common';
 import { UrlsService } from './shared/urls.service';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { RecreateUrlDto } from './dto/recreate-url.dto';
 import { DisableUrlDto } from './dto/disable-url.dto';
-import { response } from 'express';
 
 @Controller('urls')
 export class UrlsController {
@@ -24,20 +22,15 @@ export class UrlsController {
     return this.urlsService.create(createUrlDto, res);
   }
 
-  @Post('recreate')
-  @ApiOperation({ summary: 'Recriar link' })
-  @ApiTags('urls')
-  async recreate(@Body() recreateUrlDto: RecreateUrlDto) {
-    return this.urlsService.recreate(recreateUrlDto);
-  }
-
   @Get()
+  @ApiResponse({ status: 200, description: 'Sucesso.' })
   @ApiTags('urls')
   findAll() {
     return this.urlsService.findAll();
   }
 
   @Get(':hashCode')
+  @ApiResponse({ status: 404, description: 'Url não encontrada.' })
   @ApiTags('urls')
   findOne(@Param('hashCode') hashCode: string) {
     return this.urlsService.findByHashCode(hashCode);
