@@ -23,6 +23,7 @@ export class UrlsController {
   @Get()
   @ApiOperation({ summary: 'Listar todas URLs' })
   @ApiResponse({ status: 200, description: 'Sucesso.' })
+  @ApiResponse({ status: 500, description: 'Ocorreu um erro.' })
   @ApiTags('urls')
   findAll() {
     return this.urlsService.findAll();
