@@ -6,6 +6,7 @@ import { Url } from './url';
 import * as validUrl from 'valid-url';
 import { DisableUrlDto } from '../dto/disable-url.dto';
 import * as moment from 'moment';
+import { URL_EXCEPTION } from '../config/url.config';
 
 @Injectable()
 export class UrlsService {
@@ -24,7 +25,7 @@ export class UrlsService {
         _id: 0 
       }).exec();
     } catch {
-      throw new HttpException('Ocorreu um erro.', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(URL_EXCEPTION.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -48,13 +49,13 @@ export class UrlsService {
         redirectTo: url.originalUrl
       });
     } catch {
-      throw new HttpException('Url não encontrada.', HttpStatus.NOT_FOUND);
+      throw new HttpException(URL_EXCEPTION.NOT_FOUND, HttpStatus.NOT_FOUND);
     }
   }
 
   async create(createUrlDto: CreateUrlDto, @Res() res) {
     if (!validUrl.isUri(createUrlDto.originalUrl)) {
-      throw new HttpException('Url inválida.', HttpStatus.BAD_REQUEST);
+      throw new HttpException(URL_EXCEPTION.INVALID, HttpStatus.BAD_REQUEST);
     }
 
     const checkUrlExistsAndActive = await this.urlModel.find({
@@ -63,7 +64,7 @@ export class UrlsService {
       expirationDate: { $gte: moment().toString() }
     });
     if (checkUrlExistsAndActive.length > 0) {
-      throw new HttpException('Url já existe.', HttpStatus.BAD_REQUEST);
+      throw new HttpException(URL_EXCEPTION.EXISTS, HttpStatus.BAD_REQUEST);
     }
 
     const newUrl = new Url();
@@ -74,7 +75,7 @@ export class UrlsService {
     try {
       await createdShortUrl.save();
     } catch {
-      throw new HttpException('Hash code já existe', HttpStatus.BAD_REQUEST);
+      throw new HttpException(URL_EXCEPTION.HASH_CODE_EXISTS, HttpStatus.BAD_REQUEST);
     }
 
     res.status(HttpStatus.CREATED).json(newUrl);
@@ -95,7 +96,7 @@ export class UrlsService {
         res.status(HttpStatus.OK).json({ success: true });
       }
     } catch {
-      throw new HttpException('Url não encontrada.', HttpStatus.NOT_FOUND);
+      throw new HttpException(URL_EXCEPTION.NOT_FOUND, HttpStatus.NOT_FOUND);
     }
   }
 }
