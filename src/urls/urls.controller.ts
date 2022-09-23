@@ -16,7 +16,7 @@ export class UrlsController {
   @ApiResponse({ status: 201, description: 'Url criada' })
   @ApiResponse({ status: 400, description: 'Url inválida. || Url já existe. || Hash code já existe.' })
   @ApiTags('urls')
-  async create(@Body() createUrlDto: CreateUrlDto, @Res() res) {
+  create(@Body() createUrlDto: CreateUrlDto, @Res() res) {
     return this.urlsService.create(createUrlDto, res);
   }
 
