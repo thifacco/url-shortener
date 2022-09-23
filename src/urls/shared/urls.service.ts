@@ -83,20 +83,18 @@ export class UrlsService {
 
   async disable(disableUrlDto: DisableUrlDto, @Res() res) {
     try {
-      const disableUrl = await this.urlModel.findOneAndUpdate({
+      await this.urlModel.findOneAndUpdate({
         hashCode: disableUrlDto.hashCode
       }, {
         expirationDate: moment().toString(),
         active: false
       }, {
         new: false
-      }) || null;
-
-      if (disableUrl) {
-        res.status(HttpStatus.OK).json({ success: true });
-      }
+      });
     } catch {
       throw new HttpException(URL_EXCEPTION.NOT_FOUND, HttpStatus.NOT_FOUND);
     }
+
+    res.status(HttpStatus.OK).json({ success: true });
   }
 }
