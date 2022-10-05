@@ -8,4 +8,8 @@ export const URL_EXCEPTION = {
   INVALID: 'Url inválida.',
   EXISTS: 'Url já existe.',
   HASH_CODE_EXISTS: 'Hash code já existe.'
-}
+};
+
+export const SWAGGER = {
+  
+};
