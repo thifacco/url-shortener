@@ -20,6 +20,7 @@ export class UrlsService {
       return await this.urlModel.find().select({ 
         originalUrl: 1, 
         hashCode: 1, 
+        shortUrl: 1,
         active: 1, 
         expirationDate: 1, 
         _id: 0 
@@ -39,6 +40,7 @@ export class UrlsService {
       .select({
         originalUrl: 1, 
         hashCode: 1, 
+        shortUrl: 1,
         active: 1, 
         expirationDate: 1,
         _id: 0
