@@ -22,6 +22,9 @@ export class Url extends Document {
 
   @Prop({ type: Date, default: Date.now() })
   createDate: Date;
+
+  @Prop()
+  count: number;
 }
 
 const url = SchemaFactory.createForClass(Url);

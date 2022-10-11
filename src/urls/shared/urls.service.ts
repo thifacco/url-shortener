@@ -23,7 +23,7 @@ export class UrlsService {
         shortUrl: 1,
         active: 1, 
         expirationDate: 1, 
-        _id: 0 
+        _id: 0
       }).exec();
     } catch {
       throw new HttpException(URL_EXCEPTION.ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -36,19 +36,14 @@ export class UrlsService {
         hashCode: hashCode,
         active: true,
         expirationDate: { $gte: moment().toString() }
-      })
-      .select({
-        originalUrl: 1, 
-        hashCode: 1, 
-        shortUrl: 1,
-        active: 1, 
-        expirationDate: 1,
-        _id: 0
       });
+      url.count += 1;
+      url.save();
       
       res.status(HttpStatus.OK).json({
         hashCode: url.hashCode,
-        redirectTo: url.originalUrl
+        redirectTo: url.originalUrl,
+        count: url.count
       });
     } catch {
       throw new HttpException(URL_EXCEPTION.NOT_FOUND, HttpStatus.NOT_FOUND);

@@ -16,11 +16,13 @@ export class Url {
     this.active = true;
     this.expirationDate = moment().add({ 
       days: HASH_CODE_VALIDATE_DAYS 
-    }).toString()
+    }).toString();
+    this.count = 0;
   }
   
   originalUrl: string;
   hashCode: string;
   active: boolean;
   expirationDate: String;
+  count: number;
 }
