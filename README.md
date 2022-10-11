@@ -1,5 +1,5 @@
 # URL Shortener
-Encurtador de links desenvolvido com NestJs e MongoDB.
+✂️ Encurtador de links API REST desenvolvido com NestJs e MongoDB
 
 ## Iniciar a aplicação
 

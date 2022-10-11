@@ -1,8 +1,9 @@
 {
   "name": "url-shortener",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Encurtador de links API REST desenvolvido com NestJs e MongoDB",
+  "author": "Tiago Facco (https://github.com/thifacco)",
+  "homepage": "http://localhost:3000/api",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -21,7 +22,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "stop": "docker-compose down"
   },
-  "homepage": "http://localhost:3000/api",
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",

@@ -7,7 +7,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Link Shortener')
-    .setDescription('Encurtador de links desenvolvido com NestJs e MongoDB.')
+    .setDescription('✂️ Encurtador de links API REST desenvolvido com NestJs e MongoDB')
     .setVersion('1.0')
     .addTag('urls')
     .build();
