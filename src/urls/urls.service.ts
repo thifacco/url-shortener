@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable, Res } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateUrlDto } from '../dto/create-url.dto';
+import { CreateUrlDto } from './dto/create-url.dto';
 import { Url } from './url';
 import * as validUrl from 'valid-url';
-import { DisableUrlDto } from '../dto/disable-url.dto';
+import { DisableUrlDto } from './dto/disable-url.dto';
 import * as moment from 'moment';
-import { URL_EXCEPTION } from '../config/url.config';
+import { URL_EXCEPTION } from './config/url.config';
 
 @Injectable()
 export class UrlsService {

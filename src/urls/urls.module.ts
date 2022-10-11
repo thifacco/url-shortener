@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UrlSchema } from './schemas/url.schema';
-import { UrlsService } from './shared/urls.service';
+import { UrlsService } from './urls.service';
 import { UrlsController } from './urls.controller';
 
 @Module({

@@ -4,7 +4,7 @@ import {
   HASH_CODE_CUSTOM_ALPHABET, 
   HASH_CODE_SIZE, 
   HASH_CODE_VALIDATE_DAYS 
-} from '../config/url.config';
+} from './config/url.config';
 
 const nanoid = customAlphabet(HASH_CODE_CUSTOM_ALPHABET, HASH_CODE_SIZE);
 
