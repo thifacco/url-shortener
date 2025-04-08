@@ -1,4 +1,4 @@
-![Logo of the project](https://github.com/Lucasdfg07/Spotify_clone/blob/master/app/javascript/assets/images/logo.png)
+![Logo of the project](https://github.com/thifacco/url-shortener/blob/master/public/assets/url-shortner.png)
 
 
 ## URL Shortner API
@@ -49,9 +49,13 @@ Esse comando irá iniciar o Docker e criar a imagem do banco de dados MongoBD au
 
 ### 1 - Quando você acessar a url do projeto, verá a interface do SwaggerUI.
 
-![Homepage image](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/17.png)
+![Homepage image](https://github.com/thifacco/url-shortener/blob/master/public/screenshots/home.png)
 
-### 2 - You can Login in the system if you have an account registered.
+### 2 - Você pode navegar pela assinatura do endpoint POST /url e depois clicar no botão "Try it out" para testar a criação de um encurtamento de link.
+
+- Adicione o link que pretende encurtar no campo "originalUrl" do request body
+
+- Clique no botão "Execute"
 
 ![Login](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/16.png)
 
