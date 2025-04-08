@@ -57,55 +57,37 @@ Esse comando irá iniciar o Docker e criar a imagem do banco de dados MongoBD au
 
 - Clique no botão "Execute"
 
-![Login](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/16.png)
+![post-url](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/16.png)
 
-### 3 - Or simply create your account.
+### 3 - Navegue pelo endpoint GET /urls para visualizar a lista de urls encurtadas.
 
-![Sign up](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/15.png)
+- Clique no botão "Try it out" e depois em "Execute"
 
-### 4 - This is the Dashboard!
+![get-urls](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/15.png)
 
-![Dashboard](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/14.png)
-![Dashboard](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/13.png)
+- Aparecerá a lista de todas urls encurtadas criadas anteriormente.
 
-### 5 - You can see more of an album clicking above it.
+![get-urls-response](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/15.png)
 
-![Dashboard](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/12.png)
-![Dashboard](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/11.png)
+### 4 - Navegue pelo endpoint GET /urls/{hashCode} e busque pelo código hash da url encurtada.
 
-### 6 - You can also search a music, artist or an album accord of it's category!!
+- Clique no botão "Try it out", informe o código no campo "hashCode" e clique no botão "Execute"
 
-![Search tab](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/10.png)
+![get-urls-hashcode](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/14.png)
 
-### 7 - Clicking on the category, will return:
+- Você verá o registro da url encurtada:
 
-  #### 7.1 - It's albums registered.
+![get-urls-hashcode-response](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/13.png)
 
-![Search Albums tab](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/9.png)
+### 5 - Navegue pelo endpoint PATCH /urls/disable para desabilitar a url encurtada pelo código.
 
-  #### 7.2 - It's artists.
+- Clique no botão "Try it out", informe o código no campo "hashCode" e clique no botão "Execute"
 
-![Search Artists tab](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/8.png)
+![patch-urls-disable](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/12.png)
 
-  #### 7.3 - It's musics.
+- Se o código informado estiver correto, o response irá retornar a mensagem `{ "success": true }`.
 
-![Search Musics tab](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/7.png)
-
-### 8 - Clicking on the artist, you can see it's perfil like the image above.
-
-![Artist show](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/6.png)
-![Artist show](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/5.png)
-![Artist show](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/4.png)
-
-### 9 - You can access the favorite's tab too like:
-  #### 9.1 - Favorite Albums.
-![Artist show](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/3.png)
-
-  #### 9.2 - Favorite Artists.
-![Artist show](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/2.png)
-
-  #### 9.3 - Favorite Musics.
-![Artist show](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/1.png)
+![patch-urls-disable-success](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/11.png)
 
 
 ## Features
