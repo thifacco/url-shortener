@@ -57,37 +57,37 @@ Esse comando irá iniciar o Docker e criar a imagem do banco de dados MongoBD au
 
 - Clique no botão "Execute"
 
-![post-url](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/16.png)
+![post-url](https://github.com/thifacco/url-shortener/blob/master/public/screenshots/post-url.png)
 
 ### 3 - Navegue pelo endpoint GET /urls para visualizar a lista de urls encurtadas.
 
 - Clique no botão "Try it out" e depois em "Execute"
 
-![get-urls](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/15.png)
+![get-urls](https://github.com/thifacco/url-shortener/blob/master/public/screenshots/get-urls.png)
 
 - Aparecerá a lista de todas urls encurtadas criadas anteriormente.
 
-![get-urls-response](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/15.png)
+![get-urls-response](https://github.com/thifacco/url-shortener/blob/master/public/screenshots/get-urls-response.png)
 
 ### 4 - Navegue pelo endpoint GET /urls/{hashCode} e busque pelo código hash da url encurtada.
 
 - Clique no botão "Try it out", informe o código no campo "hashCode" e clique no botão "Execute"
 
-![get-urls-hashcode](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/14.png)
+![get-urls-hashcode](https://github.com/thifacco/url-shortener/blob/master/public/screenshots/get-urls-hashcode.png)
 
 - Você verá o registro da url encurtada:
 
-![get-urls-hashcode-response](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/13.png)
+![get-urls-hashcode-response](https://github.com/thifacco/url-shortener/blob/master/public/screenshots/get-urls-hashcode-response.png)
 
 ### 5 - Navegue pelo endpoint PATCH /urls/disable para desabilitar a url encurtada pelo código.
 
 - Clique no botão "Try it out", informe o código no campo "hashCode" e clique no botão "Execute"
 
-![patch-urls-disable](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/12.png)
+![patch-urls-disable](https://github.com/thifacco/url-shortener/blob/master/public/screenshots/patch-urls-disable.png)
 
 - Se o código informado estiver correto, o response irá retornar a mensagem `{ "success": true }`.
 
-![patch-urls-disable-success](https://github.com/Lucasdfg07/Spotify_clone/blob/master/public/readme_photos/11.png)
+![patch-urls-disable-success](https://github.com/thifacco/url-shortener/blob/master/public/screenshots/patch-urls-disable-success.png)
 
 
 ## Features
