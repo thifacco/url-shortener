@@ -23,6 +23,8 @@
     "stop": "docker-compose down"
   },
   "dependencies": {
+    "@fastify/static": "^6.12.0",
+    "@fastify/view": "^11.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
@@ -31,6 +33,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.2",
     "class-validator": "^0.13.2",
+    "handlebars": "^4.7.8",
     "hbs": "^4.2.0",
     "moment": "^2.29.4",
     "mongoose": "^6.6.1",
