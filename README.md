@@ -2,21 +2,22 @@
 
 
 ## URL Shortner API
-Essa aplicação é uma API Rest desenvolvida com Node / NestJS para encurtar links de maneira rápida e simples.
+Essa aplicação é uma API Rest desenvolvida com Node.js / NestJS para encurtar links de maneira rápida e simples.
 
 
 ## Tecnologias 
 
 Essas foram as tecnologias usadas nesse projeto:
 
-* NodeJs versão 16.0.0
+* Node.js versão 16.0.0
 * NestJS versão 9.0.0
 * MongoDB versão 6.0
 * Docker versão 2
 
 ## Serviços
 
-* [Docker daemon](https://docs.docker.com/get-docker/)
+* Node.js
+* Docker
 
 ## NPM packages
 
@@ -29,7 +30,7 @@ Essas foram as tecnologias usadas nesse projeto:
 ## Getting started
 
 * Dependências
-  - Node
+  - Node.js
   - Docker daemon
 
 * Para instalar as dependências do projeto:
@@ -102,6 +103,7 @@ As principais funcionalidades dessa aplicação são:
 
 ## Links
   - Repositório: [https://github.com/thifacco/url-shortener](https://github.com/thifacco/url-shortener)
+  - Docker daemon [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
 
   ## Versioning
 
